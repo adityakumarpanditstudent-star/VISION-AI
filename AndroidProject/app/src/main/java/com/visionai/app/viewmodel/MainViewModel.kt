@@ -85,7 +85,7 @@ class MainViewModel : ViewModel() {
             is VisionFrameResult.Success -> {
                 val mediapipeResult = result.result as FaceLandmarkerResult
                 val face = mediapipeResult.faceLandmarks().firstOrNull()
-                val blendshapes = mediapipeResult.faceBlendshapes()?.firstOrNull()
+                val blendshapes = mediapipeResult.faceBlendshapes().orElse(null)?.firstOrNull()
                 
                 if (face != null) {
                     val points2D = face.map { Point2D(it.x(), it.y()) }
