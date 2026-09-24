@@ -24,7 +24,14 @@ jobs:
         chmod +x AndroidProject/gradlew
 
     - name: Build with Gradle
-      run: cd AndroidProject && ./gradlew assembleDebug
+      run: cd AndroidProject && ./gradlew assembleDebug > build_log.txt 2>&1 || (cat build_log.txt && exit 1)
+
+    - name: Upload Build Log
+      if: failure()
+      uses: actions/upload-artifact@v3
+      with:
+        name: Gradle-Build-Log
+        path: AndroidProject/build_log.txt
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
