@@ -6,6 +6,9 @@
 
 VisionAI is a high-performance, real-time facial tracking and biometric telemetry application built for both Web and Android platforms. It utilizes advanced machine learning and computer vision to analyze facial micro-expressions, estimate 3D head poses, and classify complex emotional states instantaneously.
 
+### 🌐 Live Demo: [vision-ai-blush-iota.vercel.app](https://vision-ai-blush-iota.vercel.app/)
+*(Works instantly in your mobile or desktop browser—no installation required!)*
+
 ## 🚀 Key Features
 
 * **High-Fidelity 3D Face Mesh**: Maps a 468-point 3D tessellation mesh onto the subject's face in real time.
