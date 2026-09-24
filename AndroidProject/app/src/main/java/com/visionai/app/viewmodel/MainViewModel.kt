@@ -83,32 +83,36 @@ class MainViewModel : ViewModel() {
     fun updateFaceResult(result: VisionFrameResult) {
         when (result) {
             is VisionFrameResult.Success -> {
-                val face = result.result.faceLandmarks().firstOrNull()
-                val blendshapes = result.result.faceBlendshapes()?.firstOrNull()
+                val mediapipeResult = result.result as FaceLandmarkerResult
+                val face = mediapipeResult.faceLandmarks().firstOrNull()
+                val blendshapes = mediapipeResult.faceBlendshapes()?.firstOrNull()
                 
                 if (face != null) {
-                    val rawLandmarks = face.map { FaceLandmark(it.x(), it.y(), it.z()) }
+                    val points2D = face.map { Point2D(it.x(), it.y()) }
                     
                     // Bounding box calculation for HUD reticle
                     var minX = Float.MAX_VALUE
                     var maxX = Float.MIN_VALUE
                     var minY = Float.MAX_VALUE
                     var maxY = Float.MIN_VALUE
-                    rawLandmarks.forEach { lm ->
+                    points2D.forEach { lm ->
                         if (lm.x < minX) minX = lm.x
                         if (lm.x > maxX) maxX = lm.x
                         if (lm.y < minY) minY = lm.y
                         if (lm.y > maxY) maxY = lm.y
                     }
                     
+                    val expressionData = blendshapes?.let { expressionAnalyzer.analyze(it) }
+                    
                     val faceData = TrackedFaceData(
-                        landmarks = rawLandmarks,
-                        rawLandmarks = rawLandmarks,
-                        boundingBox = BoundingBox(minX, minY, maxX - minX, maxY - minY),
-                        smileScore = blendshapes?.find { it.categoryName() == "mouthSmileLeft" }?.score() ?: 0f,
-                        eyeOpenness = blendshapes?.find { it.categoryName() == "eyeBlinkLeft" }?.score()?.let { 1f - it } ?: 1f,
-                        headPose = HeadPose(0f, 0f, 0f), // Can be derived from transformation matrix
-                        distanceCm = 50f
+                        id = 1,
+                        landmarks = points2D,
+                        rawLandmarks = face,
+                        boundingBox = BoundingBox2D(minX, minY, maxX - minX, maxY - minY),
+                        headPose = headPoseEstimator.computePose(face),
+                        expression = expressionData?.first ?: ExpressionClassification("UNKNOWN", 0),
+                        metrics = expressionData?.second ?: FacialMetrics(0, 0, 0, 0, 0, false, false, 0, 0),
+                        distance = distanceEstimator.estimate(face)
                     )
                     
                     _trackedFace.value = faceData
