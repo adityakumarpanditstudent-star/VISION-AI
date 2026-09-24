@@ -1,0 +1,8 @@
+{
+  "name": "VisionAI - Real-Time Facial Vision & Android Studio Project",
+  "description": "Production-ready Android application and real-time biometric vision suite for facial landmark tracking (468 points), facial movement & expression analysis, 3D head pose estimation, and distance analysis.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

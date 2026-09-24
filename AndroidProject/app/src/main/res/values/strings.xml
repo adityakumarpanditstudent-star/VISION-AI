@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">VisionAI</string>
+    <string name="app_subtitle">Real-Time Facial Vision</string>
+    <string name="enable_camera">ENABLE CAMERA</string>
+</resources>

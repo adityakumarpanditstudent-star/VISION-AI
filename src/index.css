@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #0c0e12;
+    color: #e1e2e7;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+}
+
+.font-headline {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.font-mono-tech {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Custom laser scan keyframe animation */
+@keyframes laserSweep {
+  0% { transform: translateY(-100%); }
+  50% { transform: translateY(100%); }
+  100% { transform: translateY(-100%); }
+}
+
+.animate-laser {
+  animation: laserSweep 4s ease-in-out infinite;
+}
+
+/* Reticle pulsing */
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.8; filter: drop-shadow(0 0 6px rgba(0, 242, 254, 0.6)); }
+  50% { opacity: 0.4; filter: drop-shadow(0 0 2px rgba(0, 242, 254, 0.2)); }
+}
+
+.glow-cyan {
+  filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.4));
+}
+
+.glow-emerald {
+  filter: drop-shadow(0 0 8px rgba(103, 244, 183, 0.4));
+}
